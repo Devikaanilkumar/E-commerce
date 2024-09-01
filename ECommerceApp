@@ -1,12 +1,10 @@
 package com.app;
 
 import com.data.Inventory;
-import com.data.Product;
 import com.service.ShoppingCart;
 import java.util.Scanner;
 
 public class ECommerceApp {
-
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         ShoppingCart cart = new ShoppingCart();
@@ -28,8 +26,6 @@ public class ECommerceApp {
                     System.out.print("Enter product name (partial or full): ");
                     scanner.nextLine(); // Consume newline
                     String productName = scanner.nextLine();
-
-                    // Call the searchProduct method from Inventory
                     inventory.searchProduct(productName);
                     break;
 

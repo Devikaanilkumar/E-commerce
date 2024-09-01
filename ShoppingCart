@@ -1,11 +1,14 @@
 package com.service;
 
 import com.app.Product;
+import com.data.Inventory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
     private List<Product> cartItems = new ArrayList<>();
+    Inventory inventory = new Inventory();
 
     public void addToCart(Product product, int quantity) {
         for (int i = 0; i < quantity; i++) {
@@ -17,6 +20,13 @@ public class ShoppingCart {
         System.out.println("Shopping Cart:");
         for (Product product : cartItems) {
             System.out.println(product.getProductName() + " - $" + product.getPrice());
+        }
+    }
+    
+    public void Display() {
+        System.out.println("Available Products:");
+        for (Product product : inventory.getProducts()) {
+            System.out.println("Product Name : "+product.getProductName()+ ","+" Product ID :"+product.getProductId()+","+" Price :"+product.getPrice());
         }
     }
 

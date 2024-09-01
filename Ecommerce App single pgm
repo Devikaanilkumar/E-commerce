@@ -1,0 +1,168 @@
+package com.app;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+public class ECommerceApp {
+    public static void main(String[] args) {
+        Inventory inventory = new Inventory();
+        ShoppingCart cart = new ShoppingCart();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("Menu:");
+            System.out.println("1. Search for Products");
+            System.out.println("2. Add Product to Cart");
+            System.out.println("3. View Shopping Cart");
+            System.out.println("4. Checkout");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter product name (partial or full): ");
+                    scanner.nextLine(); // Consume newline
+                    String productName = scanner.nextLine();
+                    inventory.searchProduct(productName);
+                    break;
+
+                case 2:
+                    System.out.print("Enter Product ID: ");
+                    int productId = scanner.nextInt();
+                    System.out.print("Enter Quantity: ");
+                    int quantity = scanner.nextInt();
+                    Product product = inventory.findProductById(productId);
+                    if (product != null) {
+                        cart.addToCart(product, quantity);
+                        System.out.println("Product added to cart.");
+                    } else {
+                        System.out.println("Product not found.");
+                    }
+                    break;
+
+                case 3:
+                    cart.viewCart();
+                    break;
+
+                case 4:
+                    cart.checkout();
+                    break;
+
+                case 5:
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    // Product class
+    static class Product {
+        private int productId;
+        private String productName;
+        private String productCategory;
+        private double price;
+
+        public Product(int productId, String productName, String productCategory, double price) {
+            this.productId = productId;
+            this.productName = productName;
+            this.productCategory = productCategory;
+            this.price = price;
+        }
+
+        public int getProductId() {
+            return productId;
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public String getProductCategory() {
+            return productCategory;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+    }
+
+    // Inventory class
+    static class Inventory {
+        private List<Product> products;
+
+        public Inventory() {
+            products = new ArrayList<>();
+            // Hardcode some products
+            products.add(new Product(1, "Laptop", "Electronics", 1000));
+            products.add(new Product(2, "Phone", "Electronics", 500));
+            products.add(new Product(3, "Shirt", "Clothing", 30));
+            // Add more products as needed
+        }
+
+        public List<Product> getProducts() {
+            return products;
+        }
+
+        public Product findProductById(int productId) {
+            for (Product product : products) {
+                if (product.getProductId() == productId) {
+                    return product;
+                }
+            }
+            return null; // Product not found
+        }
+
+        public void searchProduct(String partialProdName) {
+            Stream<Product> filteredProducts = products.stream()
+                .filter(product -> product.getProductName().toLowerCase().contains(partialProdName.toLowerCase()));
+
+            boolean productFound = false;
+
+            for (Product product : filteredProducts.toList()) {
+                System.out.println("Product found: " + product.getProductName() + " - $" + product.getPrice());
+                productFound = true;
+            }
+
+            if (!productFound) {
+                System.out.println("No products found.");
+            }
+        }
+    }
+
+    // ShoppingCart class
+    static class ShoppingCart {
+        private List<Product> cartItems = new ArrayList<>();
+
+        public void addToCart(Product product, int quantity) {
+            for (int i = 0; i < quantity; i++) {
+                cartItems.add(product);
+            }
+        }
+
+        public void viewCart() {
+            System.out.println("Shopping Cart:");
+            for (Product product : cartItems) {
+                System.out.println(product.getProductName() + " - $" + product.getPrice());
+            }
+        }
+
+        public void checkout() {
+            double total = 0;
+            for (Product product : cartItems) {
+                total += product.getPrice();
+            }
+            System.out.println("Total amount: $" + total);
+            cartItems.clear();
+            System.out.println("Thank you for your purchase!");
+        }
+    }
+}

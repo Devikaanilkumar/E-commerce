@@ -4,10 +4,9 @@ import com.data.Inventory;
 import com.data.Product;
 import com.service.ShoppingCart;
 import java.util.Scanner;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ECommerceApp {
+
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         ShoppingCart cart = new ShoppingCart();
@@ -30,17 +29,8 @@ public class ECommerceApp {
                     scanner.nextLine(); // Consume newline
                     String productName = scanner.nextLine();
 
-                    List<Product> filteredProducts = inventory.getProducts().stream()
-                        .filter(product -> product.getProductName().toLowerCase().contains(productName.toLowerCase()))
-                        .collect(Collectors.toList());
-
-                    if (filteredProducts.isEmpty()) {
-                        System.out.println("No products found.");
-                    } else {
-                        filteredProducts.forEach(product -> 
-                            System.out.println("Product found: " + product.getProductName() + " - $" + product.getPrice())
-                        );
-                    }
+                    // Call the searchProduct method from Inventory
+                    inventory.searchProduct(productName);
                     break;
 
                 case 2:

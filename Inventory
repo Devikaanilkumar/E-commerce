@@ -1,0 +1,45 @@
+package com.data;
+
+import java.util.List;
+
+public class Inventory {
+    private List<Product> products;
+
+    public Inventory() {
+        products = new ArrayList<>();
+        // Hardcode some products
+        products.add(new Product(1, "Laptop", "Electronics", 1000));
+        products.add(new Product(2, "Phone", "Electronics", 500));
+        products.add(new Product(3, "Shirt", "Clothing", 30));
+        // Add more products as needed
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public Product findProductById(int productId) {
+        for (Product product : products) {
+            if (product.getProductId() == productId) {
+                return product;
+            }
+        }
+        return null; // Product not found
+    }
+
+    public void searchProduct(String partialProdName) {
+        boolean productFound = false;
+
+        // Stream through products and print the ones that match
+        for (Product product : products) {
+            if (product.getProductName().toLowerCase().contains(partialProdName.toLowerCase())) {
+                System.out.println("Product found: " + product.getProductName() + " - $" + product.getPrice());
+                productFound = true;
+            }
+        }
+
+        if (!productFound) {
+            System.out.println("No products found.");
+        }
+    }
+}

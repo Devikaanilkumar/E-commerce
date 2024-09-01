@@ -1,6 +1,9 @@
 package com.data;
 
+import com.app.Product;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Inventory {
     private List<Product> products;
@@ -28,14 +31,14 @@ public class Inventory {
     }
 
     public void searchProduct(String partialProdName) {
+        Stream<Product> filteredProducts = products.stream()
+            .filter(product -> product.getProductName().toLowerCase().contains(partialProdName.toLowerCase()));
+
         boolean productFound = false;
 
-        // Stream through products and print the ones that match
-        for (Product product : products) {
-            if (product.getProductName().toLowerCase().contains(partialProdName.toLowerCase())) {
-                System.out.println("Product found: " + product.getProductName() + " - $" + product.getPrice());
-                productFound = true;
-            }
+        for (Product product : filteredProducts.toList()) {
+            System.out.println("Product found: " + product.getProductName() + " - $" + product.getPrice());
+            productFound = true;
         }
 
         if (!productFound) {

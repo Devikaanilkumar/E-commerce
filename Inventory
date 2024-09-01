@@ -1,3 +1,4 @@
+
 package com.data;
 
 import com.app.Product;
@@ -11,9 +12,10 @@ public class Inventory {
     public Inventory() {
         products = new ArrayList<>();
         // Hardcode some products
-        products.add(new Product(1, "Laptop", "Electronics", 1000));
-        products.add(new Product(2, "Phone", "Electronics", 500));
-        products.add(new Product(3, "Shirt", "Clothing", 30));
+        products.add(new Product(1, "Mobile", "Electronics", 6000));
+        products.add(new Product(2, "Washing Machine", "Electronics", 1500));
+        products.add(new Product(3, "Top", "Clothing", 600));
+        products.add(new Product(4, "Hair clip", "Accessories", 30));
         // Add more products as needed
     }
 

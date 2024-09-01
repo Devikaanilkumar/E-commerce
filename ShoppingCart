@@ -1,38 +1,32 @@
 package com.service;
 
-import com.data.Product;
-import java.util.HashMap;
-import java.util.Map;
+import com.app.Product;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCart {
-    private Map<Product, Integer> cartItems;
-
-    public ShoppingCart() {
-        cartItems = new HashMap<>();
-    }
+    private List<Product> cartItems = new ArrayList<>();
 
     public void addToCart(Product product, int quantity) {
-        if (cartItems.containsKey(product)) {
-            cartItems.put(product, cartItems.get(product) + quantity);
-        } else {
-            cartItems.put(product, quantity);
+        for (int i = 0; i < quantity; i++) {
+            cartItems.add(product);
         }
     }
 
     public void viewCart() {
-        for (Map.Entry<Product, Integer> entry : cartItems.entrySet()) {
-            Product product = entry.getKey();
-            int quantity = entry.getValue();
-            System.out.println("Product: " + product.getProductName() + ", Quantity: " + quantity + ", Price: " + product.getPrice());
+        System.out.println("Shopping Cart:");
+        for (Product product : cartItems) {
+            System.out.println(product.getProductName() + " - $" + product.getPrice());
         }
     }
 
     public void checkout() {
         double total = 0;
-        for (Map.Entry<Product, Integer> entry : cartItems.entrySet()) {
-            total += entry.getKey().getPrice() * entry.getValue();
+        for (Product product : cartItems) {
+            total += product.getPrice();
         }
         System.out.println("Total amount: $" + total);
-        cartItems.clear(); // Clear cart after checkout
+        cartItems.clear();
+        System.out.println("Thank you for your purchase!");
     }
 }
